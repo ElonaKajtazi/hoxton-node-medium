@@ -36,6 +36,15 @@ app.get("/blogs/:id", async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+app.post("/blogs", async (req, res) => {
+  try {
+    const blog = await prisma.blog.create({ data: req.body });
+    res.send(blog);
+  } catch (error) {
+    //@ts-ignore
+    res.status(400).send({ error: error.message });
+  }
+});
 
 app.listen(port, () => {
   console.log(`App running http://localhost:${port}`);
