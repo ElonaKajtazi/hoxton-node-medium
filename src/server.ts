@@ -15,11 +15,27 @@ app.get("/blogs", async (req, res) => {
     });
     res.send(blogs);
   } catch (error) {
-    res.status(400).send({ error });
+    //@ts-ignore
+    res.status(400).send({ error: error.message });
   }
 });
-
-
+app.get("/blogs/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const blog = await prisma.blog.findUnique({
+      where: { id },
+      include: { author: true, comments: true, claps: true },
+    });
+    if (blog) {
+      res.send(blog);
+    } else {
+      res.status(404).send({ error: "Blog not found" });
+    }
+  } catch (error) {
+    //@ts-ignore
+    res.status(400).send({ error: error.message });
+  }
+});
 
 app.listen(port, () => {
   console.log(`App running http://localhost:${port}`);
