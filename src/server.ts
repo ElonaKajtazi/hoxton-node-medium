@@ -46,26 +46,34 @@ app.post("/blogs", async (req, res) => {
   }
 });
 app.get("/comments", async (req, res) => {
-    try {
-        const comments = await prisma.comment.findMany({
-          include: { author: true, blog: true },
-        });
-        res.send(comments);
-      } catch (error) {
-        //@ts-ignore
-        res.status(400).send({ error: error.message });
-      }
-})
+  try {
+    const comments = await prisma.comment.findMany({
+      include: { author: true, blog: true },
+    });
+    res.send(comments);
+  } catch (error) {
+    //@ts-ignore
+    res.status(400).send({ error: error.message });
+  }
+});
 app.post("/comments", async (req, res) => {
   try {
     const comment = await prisma.comment.create({ data: req.body });
-    res.send(comment)
+    res.send(comment);
   } catch (error) {
     //@ts-ignore
-    res.status(400).send({error: error.message})
+    res.status(400).send({ error: error.message });
   }
 });
-
+app.post("/claps", async (req, res) => {
+  try {
+    const clap = await prisma.clap.create({ data: req.body });
+    res.send(clap);
+  } catch (error) {
+    //@ts-ignore
+    res.status(400).send({ error: error.message });
+  }
+});
 app.listen(port, () => {
   console.log(`App running http://localhost:${port}`);
 });
