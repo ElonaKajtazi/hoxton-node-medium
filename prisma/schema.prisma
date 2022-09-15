@@ -31,7 +31,6 @@ model User {
 
 model Clap {
   id Int @id @default(autoincrement())
-  clapCount Int
   author User @relation(fields: [userId], references: [id])
   blog Blog @relation(fields: [blogId], references: [id])
   userId Int
